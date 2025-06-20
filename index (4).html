@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отель - Роскошный отдых премиум-класса</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #c19a6b;
+            --secondary: #1a1a1a;
+            --light: #f8f5f0;
+            --dark: #0e0e0e;
+            --gold: #d4af37;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0e0e0e 0%, #1a1a1a 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid var(--primary);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(193, 154, 107, 0.5);
+        }
+        
+        .logo span {
+            color: var(--light);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:hover, 
+        nav ul li a.active {
+            color: var(--primary);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h2 {
+            font-size: 64px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+        }
+        
+        .hero p {
+            font-size: 22px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            color: var(--light);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 100px 0;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #aaa;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .room-carousel {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto 50px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .room-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.85);
+            padding: 25px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .room-info h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .room-info p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+        
+        .room-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+        }
+        
+        .carousel-btn {
+            background: rgba(10, 10, 10, 0.7);
+            color: var(--primary);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+        
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            background: #444;
+            border-radius: 50%;
+            margin: 0 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+        
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .room-card {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .room-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .room-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .room-card-content {
+            padding: 25px;
+        }
+        
+        .room-card h3 {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .room-card p {
+            color: #bbb;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .room-card-price {
+            font-size: 20px;
+            color: var(--gold);
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        
+        .restaurant-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .restaurant-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(20, 20, 20, 0.85);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .restaurant-content h2 {
+            font-size: 42px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .restaurant-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #ddd;
+        }
+        
+        .restaurant-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .info-card {
+            background: rgba(30, 30, 30, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+            max-width: 250px;
+        }
+        
+        .info-card i {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .info-card h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .info-card p {
+            font-size: 16px;
+            margin-bottom: 0;
+            color: #bbb;
+        }
+        
+        .registration-section {
+            background: rgba(15, 15, 15, 0.95);
+            padding: 100px 0;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(30, 30, 30, 0.7);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .form-title h2 {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .form-title p {
+            color: #aaa;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ddd;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            background: rgba(50, 50, 50, 0.5);
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 10px rgba(193, 154, 107, 0.3);
+        }
+        
+        .submit-btn {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .confirmation-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: rgba(40, 167, 69, 0.2);
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 1px solid #28a745;
+        }
+        
+        .confirmation-message p {
+            color: #28a745;
+            font-size: 18px;
+            margin: 0;
+        }
+        
+        footer {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 50px 0 20px;
+            border-top: 1px solid var(--primary);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: var(--primary);
+            font-size: 22px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-column p, 
+        .footer-column li {
+            color: #aaa;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-column ul li {
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-column ul li i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(50, 50, 50, 0.5);
+            border-radius: 50%;
+            color: var(--primary);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #777;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .hero h2 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .section-title h2 {
+                font-size: 32px;
+            }
+            
+            .restaurant-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Отель<span></span></h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-tab="home">Главная</a></li>
+                        <li><a href="#" class="nav-link" data-tab="rooms">Номера</a></li>
+                        <li><a href="#" class="nav-link" data-tab="restaurant">Ресторан</a></li>
+                        <li><a href="#" class="nav-link" data-tab="registration">Регистрация</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <section id="home" class="tab-content active">
+        <div class="hero">
+            <div class="hero-content">
+                <h2>Роскошный отдых премиум-класса</h2>
+                <p>Окунитесь в мир изысканного комфорта и безупречного сервиса в самом сердце города. Отельыы - это идеальное сочетание современной элегантности и традиционного гостеприимства.</p>
+                <button style="display: inline-block; background: var(--primary); color: var(--dark); padding: 15px 40px; font-size: 18px; font-weight: 600; text-decoration: none; border-radius: 50px; transition: all 0.3s ease; border: 2px solid var(--primary); text-transform: uppercase; letter-spacing: 1px;" href="#"  class="nav-link" data-tab="registration">Забронировать номер</button>
+            </div>
+        </div>
+    </section>
+    <section id="rooms" class="tab-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Наши Номера</h2>
+                <p>Погрузитесь в мир роскоши и комфорта с нашими эксклюзивными номерами, каждый из которых создан для вашего идеального отдыха</p>
+            </div>
+            <div class="room-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Президентский люкс">
+                        <div class="room-info">
+                            <h3>Президентский Люкс</h3>
+                            <p>Просторные апартаменты с панорамным видом на город, отдельной гостиной зоной, камином и роскошной ванной комнатой с джакузи. Идеально для важных персон и особых случаев.</p>
+                            <div class="room-price">от 45 000 ₽ / ночь</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Делюкс с террасой">
+                        <div class="room-info">
+                            <h3>Делюкс с Террасой</h3>
+                            <p>Элегантный номер с просторной террасой, видом на море и уютной зоной отдыха. Идеальный выбор для романтического отдыха или уединения с природой.</p>
+                            <div class="room-price">от 25 000 ₽ / ночь</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Бизнес класс">
+                        <div class="room-info">
+                            <h3>Бизнес Класс</h3>
+                            <p>Просторный номер с отдельной рабочей зоной, высокоскоростным интернетом и всем необходимым для продуктивной работы. Идеально для деловых путешественников.</p>
+                            <div class="room-price">от 18 000 ₽ / ночь</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="carousel-indicators">
+                    <span class="indicator active"></span>
+                    <span class="indicator"></span>
+                    <span class="indicator"></span>
+                </div>
+            </div>
+            <div class="rooms-grid">
+                <div class="room-card">
+                    <img src="data:image/jpeg;base64,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" alt="Стандарт">
+                    <div class="room-card-content">
+                        <h3>Стандарт</h3>
+                        <p>Уютный номер с комфортной кроватью, современной ванной комнатой и всем необходимым для приятного отдыха.</p>
+                        <div class="room-card-price">от 12 000 ₽ / ночь</div>
+                    </div>
+                </div>
+                <div class="room-card">
+                    <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Семейный">
+                    <div class="room-card-content">
+                        <h3>Семейный</h3>
+                        <p>Просторный номер с двумя спальнями, гостиной зоной и всеми удобствами для комфортного отдыха всей семьей.</p>
+                        <div class="room-card-price">от 22 000 ₽ / ночь</div>
+                    </div>
+                </div>
+                <div class="room-card">
+                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Люкс с видом на море">
+                    <div class="room-card-content">
+                        <h3>Люкс с видом на море</h3>
+                        <p>Эксклюзивный номер с панорамным видом на море, просторной террасой и элегантным интерьером.</p>
+                        <div class="room-card-price">от 32 000 ₽ / ночь</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="restaurant" class="tab-content">
+        <div class="restaurant-section">
+            <div class="container">
+                <div class="restaurant-content">
+                    <h2>Ресторан "Золотой Век"</h2>
+                    <p>Наш эксклюзивный ресторан предлагает уникальное гастрономическое путешествие, где традиционные рецепты встречаются с современными интерпретациями. Под руководством шеф-повара с мишленовской звездой мы создаем блюда, которые станут настоящим открытием для ваших вкусовых рецепторов.</p>
+                    <p>Винная карта ресторана включает более 500 наименований лучших вин со всего мира, тщательно отобранных нашим сомелье. Элегантный интерьер, живая музыка по вечерам и безупречный сервис создают атмосферу роскоши и утонченности.</p>
+                    
+                    <div class="restaurant-info">
+                        <div class="info-card">
+                            <i class="fas fa-clock"></i>
+                            <h4>Часы работы</h4>
+                            <p>Завтрак: 7:00 - 11:00<br>
+                               Обед: 12:00 - 16:00<br>
+                               Ужин: 18:00 - 23:00</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-utensils"></i>
+                            <h4>Кухня</h4>
+                            <p>Фьюжн европейской и азиатской кухни с акцентом на морепродукты и сезонные продукты</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-music"></i>
+                            <h4>Вечерняя программа</h4>
+                            <p>Живая джазовая музыка по пятницам и субботам с 20:00 до 23:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="registration" class="tab-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Регистрация</h2>
+                <p>Забронируйте свой идеальный отдых прямо сейчас и получите эксклюзивные привилегии для наших гостей</p>
+            </div>
+            
+            <div class="form-container">
+                <div class="form-title">
+                    <h2>Форма бронирования</h2>
+                    <p>Заполните форму ниже, и наш менеджер свяжется с вами для подтверждения бронирования</p>
+                </div>
+                
+                <form id="booking-form">
+                    <div class="form-group">
+                        <label for="name">Полное имя</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="room-type">Тип номера</label>
+                        <select id="room-type" name="room-type" required>
+                            <option value="">Выберите тип номера</option>
+                            <option value="standard">Стандарт</option>
+                            <option value="business">Бизнес класс</option>
+                            <option value="deluxe">Делюкс с террасой</option>
+                            <option value="family">Семейный</option>
+                            <option value="sea-view">Люкс с видом на море</option>
+                            <option value="presidential">Президентский люкс</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="check-in">Дата заезда</label>
+                        <input type="date" id="check-in" name="check-in" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="check-out">Дата выезда</label>
+                        <input type="date" id="check-out" name="check-out" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guests">Количество гостей</label>
+                        <select id="guests" name="guests" required>
+                            <option value="1">1 гость</option>
+                            <option value="2" selected>2 гостя</option>
+                            <option value="3">3 гостя</option>
+                            <option value="4">4 гостя</option>
+                            <option value="5+">5+ гостей</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Забронировать</button>
+                    
+                    <div class="confirmation-message" id="confirmation-message">
+                        <p><i class="fas fa-check-circle"></i> Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Отель</h3>
+                    <p>Роскошный отель премиум-класса, расположенный в самом сердце города. Мы предлагаем непревзойденный комфорт, безупречный сервис и незабываемые впечатления.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Улица Роскоши, 1, Город Премиум</li>
+                        <li><i class="fas fa-phone"></i> +7 (495) 123-45-67</li>
+                        <li><i class="fas fa-envelope"></i> info@otelyy.ru</li>
+                        <li><i class="fas fa-globe"></i> www.otelyy.ru</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Быстрые ссылки</h3>
+                    <ul>
+                        <li><a href="#" class="nav-link" data-tab="home">Главная</a></li>
+                        <li><a href="#" class="nav-link" data-tab="rooms">Номера</a></li>
+                        <li><a href="#" class="nav-link" data-tab="restaurant">Ресторан</a></li>
+                        <li><a href="#" class="nav-link" data-tab="registration">Регистрация</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Отель. Все права защищены. Премиум отдых для избранных.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                this.classList.add('active');
+                
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+                
+                window.scrollTo(0, 0);
+            });
+        });
+        
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+        
+        updateCarousel();
+        
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        });
+        
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        });
+        
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                updateCarousel();
+            });
+        });
+        
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }, 5000);
+        
+        function updateCarousel() {
+            document.querySelector('.carousel-container').style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+        
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const roomType = document.getElementById('room-type').value;
+            const checkIn = document.getElementById('check-in').value;
+            const checkOut = document.getElementById('check-out').value;
+            const guests = document.getElementById('guests').value;
+
+            const booking = {
+                name,
+                email,
+                phone,
+                roomType,
+                checkIn,
+                checkOut,
+                guests,
+                timestamp: new Date().toISOString()
+            };
+
+            let bookings = JSON.parse(localStorage.getItem('hotelBookings')) || [];
+            bookings.push(booking);
+            localStorage.setItem('hotelBookings', JSON.stringify(bookings));
+
+            document.getElementById('confirmation-message').style.display = 'block';
+
+            this.reset();
+
+            setTimeout(() => {
+                document.getElementById('confirmation-message').style.display = 'none';
+            }, 5000);
+        });
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('check-in').min = today;
+
+        document.getElementById('check-in').addEventListener('change', function() {
+            document.getElementById('check-out').min = this.value;
+        });
+    </script>
+</body>
+</html>
